@@ -3,7 +3,7 @@
 use crate::utils::read_lines;
 
 pub fn solve() {
-    let lines = read_lines("./input_files/p2_input").unwrap();
+    let lines = read_lines("./input_files/p2_input.txt").unwrap();
 
     let mut safe_count = 0;
 
@@ -13,10 +13,10 @@ pub fn solve() {
             safe_count += 1;
         } else {
             //part 2 condition
-            for (idx, word) in words.iter().enumerate() {
+            for (idx, _) in words.iter().enumerate() {
                 let mut new = words.clone();
                 let _ = new.remove(idx);
-                if (is_safe(&new)) {
+                if is_safe(&new) {
                     safe_count += 1;
                     break;
                 }
@@ -46,18 +46,4 @@ fn is_safe(words: &Vec<&str>) -> bool {
         safe_order = true;
     }
     return safe_gap && safe_order;
-}
-
-fn print_vec(vec: &Vec<i32>) {
-    for v in vec {
-        print!("{v} ")
-    }
-    println!()
-}
-
-fn print_words(vec: &Vec<&str>) {
-    for v in vec {
-        print!("{v} ")
-    }
-    println!()
 }

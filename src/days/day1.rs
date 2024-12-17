@@ -5,7 +5,7 @@ pub fn solve() {
     let mut col1: Vec<u32> = Vec::new();
     let mut col2: Vec<u32> = Vec::new();
 
-    if let Ok(lines) = read_lines("./input_files/p1_input") {
+    if let Ok(lines) = read_lines("./input_files/p1_input.txt") {
         for line in lines.flatten() {
             let words = line.split("   ");
             for (i, word) in words.into_iter().enumerate() {
