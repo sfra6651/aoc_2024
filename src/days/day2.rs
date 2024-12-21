@@ -3,7 +3,7 @@
 use crate::utils::read_lines;
 
 pub fn solve() {
-    let lines = read_lines("./input_files/p2_input.txt").unwrap();
+    let lines = read_lines("./input_files/day2_input.txt").unwrap();
 
     let mut safe_count = 0;
 
