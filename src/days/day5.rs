@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+#[allow(unused_imports)]
 use crate::utils::{read_lines, print_vec};
 
 pub fn solve()
@@ -6,7 +7,7 @@ pub fn solve()
     let mut rules: HashMap<usize, Vec<usize>> = HashMap::new();
     let mut updates: Vec<Vec<usize>> = Vec::new();
 
-    let lines = read_lines("./input_files/day5_test_input.txt").unwrap();
+    let lines = read_lines("./input_files/day5_input.txt").unwrap();
 
     let mut is_instruction = true;
 
@@ -36,33 +37,26 @@ fn solve_p2(updates: &mut Vec<Vec<usize>>, rules: &HashMap<usize, Vec<usize>>)
 
     for update in updates.iter_mut() {
         if !check_update(&update, &rules) {
-            reorder(update, &rules);
-            sum += get_middle(update);
+            update.sort_by(|a, b| {
+                if rules.get(a) == None {
+                    return std::cmp::Ordering::Equal;
+                }
+                let rule = rules.get(a).unwrap();
+                if rule.contains(b) {
+                    return std::cmp::Ordering::Less;
+                }
+
+                return std::cmp::Ordering::Greater;
+            });
+            // print_vec(update);
+            sum += get_middle(&update);
+            // println!();
         }
     }
 
     println!("Part 2: {}", sum);
 }
 
-fn reorder<'a>(update: &'a mut Vec<usize>, rules: &HashMap<usize, Vec<usize>>) -> &'a Vec<usize>
-{
-    let len = update.len();
-    for idx in 0..len {
-        let num = update[idx];
-        let update_rules: Option<&Vec<usize>> = rules.get(&num);
-        if update_rules == None { 
-            continue; 
-        }
-        for rule in update_rules.unwrap().iter() {
-            //bubble down the invalid value until its valid
-            while !validate_entry(*rule, idx, update) {
-                update.swap(idx, idx-1);
-            };
-        }
-    }
-
-    return update;
-}
 
 fn solve_p1(updates: &Vec<Vec<usize>>, rules: &HashMap<usize, Vec<usize>>) 
 {
@@ -77,9 +71,7 @@ fn solve_p1(updates: &Vec<Vec<usize>>, rules: &HashMap<usize, Vec<usize>>)
     println!("Part 1: {}", sum);
 }
 
-
-
-fn check_update(update: &Vec<usize>, rules: &HashMap<usize, Vec<usize>>) -> bool 
+fn check_update(update: &Vec<usize>, rules: &HashMap<usize, Vec<usize>>) -> bool
 {
     for (idx, num) in update.iter().enumerate() {
         let update_rules: Option<&Vec<usize>> = rules.get(&num);

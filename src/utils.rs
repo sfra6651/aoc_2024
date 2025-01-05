@@ -9,6 +9,7 @@ where P: AsRef<Path>, {
     Ok(io::BufReader::new(file).lines())
 }
 
+#[allow(dead_code)]
 pub fn print_vec<T>(vec: &Vec<T>) 
 where T: Display
 {
